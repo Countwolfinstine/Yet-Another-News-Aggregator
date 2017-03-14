@@ -6,10 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/login.css">
-  <style type="text/css">
-
-  </style>
-  <title>EA</title>
+  <title>Login/Register</title>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" id="navv">
@@ -22,31 +19,30 @@
 			</button>
 			<a href="" class="navbar-brand">YANA</a>
 		</div>
-			<div class="collapse navbar-collapse" id="collapsemenu">
-				<ul class="nav navbar-nav navbar-right ">
-					<li class="active"><a href="">Home</a></li>
-					<li><a href="">Profile</a></li>
-					<li><a href="">Catagories</a></li>
-					<li><a href="">Post</a></li>
-					<li><a href="">About</a></li>
-					<li>
-						<a class="dropdown-toggle" data-toggle="dropdown" role="button" href="">More<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="">stuff</a></li>
-							<li><a href="">placeholer?</a></li>
-							<li><a href="">stuff2</a></li>
-						</ul>
-					</li>
-		<!-- 			<button type="button" class="btn btn-default navbar-btn navbar-right">Sign out</button>
-	 -->		</ul>
-	 		</div>
+		<div class="collapse navbar-collapse" id="collapsemenu">
+			<ul class="nav navbar-nav navbar-right ">
+				<li class="active"><a href="">Home</a></li>
+				<li><a href="">Profile</a></li>
+				<li><a href="">Catagories</a></li>
+				<li><a href="">Post</a></li>
+				<li><a href="">About</a></li>
+				<li>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" href="">More<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="">stuff</a></li>
+						<li><a href="">placeholer?</a></li>
+						<li><a href="">stuff2</a></li>
+					</ul>
+				</li>
+						<!-- <button type="button" class="btn btn-default navbar-btn navbar-right">Sign out</button> -->
+ 			</ul>
+ 		</div>
 	</div>
 </nav>
 
 <div class="container box">
-<span class="spn" id="lgin"> LOGIN</span>
-<span class="spn" id="regis">REGISTER</span>
-
+	<span class="spn" id="lgin"> LOGIN</span>
+	<span class="spn" id="regis">REGISTER</span>
 	<div class="login" >
 		<label for="userName" class="aa">Username</label>
 		<input type="text"  class="form-control" name="userName" id="log_U" >
@@ -73,101 +69,7 @@
 
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script type="text/javascript">
-	var xhr=new XMLHttpRequest();
-	var xhr1=new XMLHttpRequest();
-	function login(){
-		us=document.getElementById("log_U").value;
-		pas=document.getElementById("log_P").value;		
-		lg="login.php?userName="+us+"&password="+pas;
-		xhr.onreadystatechange=loginphp;
-		xhr.open("GET","login.php?userName="+us+"&password="+pas,true);
-		xhr.send();
-	}
-	
-	function loginphp()
- 	{ 
-		if(xhr.readyState == 4 && xhr.status == 200){
-			console.log(xhr.responseText);
-			document.getElementById("logstat").innerHTML=xhr.responseText;
-		}
-	}
-
-	function register(){
-		us=document.getElementById("reg_U").value;
-		pas=document.getElementById("reg_P").value;		
-		cpas=document.getElementById("reg_Pr").value;
-		eml=document.getElementById("reg_E").value;
-		xhr1.onreadystatechange=regisphp;
-		console.log(us);
-		console.log(cpas);
-		console.log(pas);
-		console.log(eml);
-		console.log("login.php?name="+us+"&password="+pas+"&cpassword="+cpas+"&email="+eml);
-		xhr1.open("GET","register.php?name="+us+"&password="+pas+"&cpassword="+cpas+"&email="+eml, true);
-		xhr1.send();
-	}
-
-	function regisphp()
- 	{ 
-		if(xhr1.readyState == 4 && xhr1.status == 200){
-			console.log(xhr1.responseText);
-
-			document.getElementById("regstat").innerHTML=xhr1.responseText;
-		}
-	}
-</script>
-<script>
-	$(document).ready(function() {
-		$(".register").hide();
-	$("#navv").css("background-color","rgba(255,255,255,0.9)");
-  	$(".navbar-inverse .navbar-brand ").css("color","#365382");
-  	
-	});
-	$("#lgin").click(function() {
-		$(".register").hide();
-		$(".login").show();
-		$(this).css("background-color", "#eee");
-		$("#regis").css("background-color", "#365382");		
-	});
-	$("#regis").click(function() {
-		$(".register").show();
-		$(".login").hide();
-		$("#lgin").css(	"background-color", "#365382");
-		$(this).css(	"background-color", "#eee");		
-	});
-
-	$("#reg_S").hover(
-		function() {
-		$(this).css({"background-color":"rgba(54, 83, 130,0.8)","color":"black"});
-		},
-		function() {
-		$(this).css({"background-color":"#365382","color":"white"})}
-
-		);		
-
-	$("#log_S").hover(
-		function() {
-		$(this).css({"background-color":"rgba(54, 83, 130,0.8)","color":"black"});
-		},
-		function() {
-		$(this).css({"background-color":"#365382","color":"white"})}
-
-
-		);		
-
-
-	// $(document).scroll(function() {
-	//   	$("#navv").css("background-color","rgba(255,255,255,0.9)");
-	//   	$(".navbar-inverse .navbar-brand ").css("color","#365382");
-	//   	if($(this).scrollTop()==0)
-	// {
-	// 	$("#navv").css("background-color","rgba(255,255,255,0)");
-	//   	$(".navbar-inverse .navbar-brand ").css("color","white"); 	
-	// }
-	// });
-
-		
-</script>
+<script type="text/javascript" src="js/Login-JQuery.js"></script>
+<script type="text/javascript" src="js/Login-JavaSrc.js"></script>
 </body>
 </html>
