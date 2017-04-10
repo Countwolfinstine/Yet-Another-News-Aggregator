@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <title>YANA Home</title>
+
+</head>
+<style>
+		@import url('https://fonts.googleapis.com/css?family=Rajdhani:700|Raleway:300|Nunito:300|Russo+One|Coda|Squada+One');
+		div.pcon{
+			width:100%;
+			font-size: 25px;
+			padding-left: 50px;
+			font-family: 'Nunito';
+		}
+		
+		div.ptit{
+			width:100%;
+			display:block;
+		}
+		
+		html{
+			height:100%;
+		}
+
+		body{
+			background: url('./images/techbg.jpg') no-repeat center center fixed; 
+		 	background-size: cover;
+			height: 100%;
+			font-family: 'Raleway';
+			font-weight:300;
+		}
+
+		h2 {
+		    letter-spacing: 2px;
+		    font-family: 'Squada one', Arial;
+		}
+
+		img {
+		    border-radius: 8px;
+		}
+
+		.postfooter{
+			border:solid 2px #eee; 
+			font-size: 25px;
+			
+		}
+		
+		.pdiv {
+		
+
+	background-color:rgba(196, 199, 206,0.9); padding: 15px;
+	margin-top: 10px ;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+		}
+
+		.postlikes{
+		font-size: 40px;
+		border: solid 1px black;
+		padding:5px;
+		font-family: 'Squada one', Arial;
+		cursor: pointer;
+		}
+
+		.postbody{
+			font-family: 'Raleway';
+			font-weight:300;
+			size: 5px;
+			font-size: 25px;
+			padding:25px;
+			margin: 25px;
+			border:2px solid black;
+			text-align: left;
+		}
+
+		.postimg{
+			padding:20px; 
+			height: auto;
+		}
+
+		.head h1{
+			font-size: 55px;
+		}
+
+		.head{
+			padding:50px;
+			margin: 50px;
+		}
+
+		.navbar	{
+			font-family: 'Raleway';	
+			border-color: rgba(0,0,0,0);
+		 	font-weight: 300;
+			border:0px;
+		}
+
+		.pusr{
+			font-family:'Rajdhani';
+			font-size:25px;
+			text-align: right;
+			font-style: italic;
+		}
+
+		.ptit{
+			font-family:'Raleway';
+			font-size:35px; 
+				cursor: pointer;
+		}
+
+		.navbar .navbar-brand {
+		    color: #365382;
+		    font-size:45px;
+		}
+
+		.navbar .navbar-nav>.active>a{
+			background-color:#eee;
+		}
+
+		.navbar-nav {
+			font-size: 23px;
+		}
+
+		.navbar-inverse .navbar-nav>li>a {
+		    color: black;
+		}
+		
+		.center{
+			text-align: center;
+		}
+		
+		.jumbotron{
+			background-color: rgba(0,0,0,0);
+		}
+
+		#like_number{
+		font-size: 40px;
+		cursor: pointer;
+		}
+
+		#active{
+			color:rgb(255,255,255);
+		}
+
+		#subs{
+
+		}
+	</style>
+
+<script type="text/javascript">
+	var xhr = new XMLHttpRequest(); 
+	var xhr1 = new XMLHttpRequest(); 
+	var id = 0;var data = [];
+	
+	
+	var obj={
+		monitor:function(){
+			var ev=new EventSource("sseprep.php")
+			ev.addEventListener("received",obj.update,false);
+			ev.onerror=function(){alert("Looks like we messed up")}
+				
+		},
+		update:function(event){
+			var d=document.createElement("div");
+			var arr = JSON.parse(event.data);
+			for(var i=0;i<arr.length;i++){
+				var data = arr[i];
+
+				var pdiv = document.createElement("div");
+				var pusr = document.createElement("div");
+				var ptit = document.createElement("div");
+				var pcon = document.createElement("div");
+				pdiv.setAttribute("class","pdiv");
+				pusr.setAttribute("class","pusr");
+				ptit.setAttribute("class","ptit");
+				pcon.setAttribute("class","pcon");
+				pdiv.setAttribute("id","p_"+data['id']);
+				pcon.setAttribute("id","c_"+data['id']);
+				ptit.innerHTML = data['title'];
+				pusr.innerHTML = "~"+data['username'];
+				
+				pdiv.setAttribute("onclick","comet_expand_post("+data['id']+")");
+				var p = document.getElementById("post_container");
+				pdiv.appendChild(ptit);
+				pdiv.appendChild(pcon);
+				pdiv.appendChild(pusr);
+
+				p.insertBefore(pdiv,p.childNodes[0]);
+				p.insertBefore(document.createElement("br"),p.childNodes[1]);
+			
+			}
+				
+		}			
+	}
+
+	function comet_expand_post(pid){
+		ps = document.getElementById("p_"+pid);
+		for(i = 0;i<data.length;i++){
+			if(data['id'] == pid){
+				con = data[i].content;
+				console.log(con);
+				p = document.getElementById("c_"+pid)
+				p.appendChild(document.createElement("br"));
+				p.innerHTML = con;
+			}
+		}
+	}
+	count=0;
+	scrollamt=200;
+	function getContent(){
+	console.log(document.body.scrollTop);
+	if(document.body.scrollTop>scrollamt || document.documentElement.scrollTop>scrollamt)
+			{
+			
+			posts();	
+			scrollamt+=200;
+			}
+	}
+	
+
+	window.onscroll=getContent;
+	function init(){
+		xhr.onreadystatechange = set_usr;
+		xhr.open("GET","login_check.php",true);console.log("checking...");
+		xhr.send();
+		posts();	
+	}
+	function posts(){
+		id = id+10;
+		xhr1.onreadystatechange = print_posts;
+		xhr1.open("GET","fetch_posts.php?id="+id,true);
+		xhr1.send()
+	}
+	
+	function print_posts(){
+		if(xhr1.readyState == 4 && xhr1.status == 200){
+			var res = JSON.parse(xhr1.responseText);
+			var new_dat_len = res.length;
+			var old_dat_len = data.length;
+			
+			for(var j = 0;j<new_dat_len;j++)
+				data.push(res[j]);
+			console.log(data);
+			
+			for(var i=old_dat_len; i< old_dat_len+new_dat_len;i++){
+				var pdiv = document.createElement("div");
+				var pusr = document.createElement("div");
+				var ptit = document.createElement("div");
+				var pcon = document.createElement("div");
+				pdiv.setAttribute("class","pdiv");
+				pusr.setAttribute("class","pusr");
+				ptit.setAttribute("class","ptit");
+				pcon.setAttribute("class","pcon");
+				pdiv.setAttribute("id","p_"+data[i].id);
+				pcon.setAttribute("id","c_"+data[i].id);
+				ptit.innerHTML = data[i].title;
+				pusr.innerHTML = "~"+data[i].username;
+				
+				pdiv.setAttribute("onclick","expand_post("+data[i].id+")");
+				var p = document.getElementById("post_container");
+				pdiv.appendChild(ptit);
+				
+				pdiv.appendChild(pcon);
+				
+				pdiv.appendChild(pusr);
+				p.appendChild(pdiv);
+				p.appendChild(document.createElement("br"));
+				
+			}
+		}
+	}
+		function expand_post(pid){
+		ps = document.getElementById("p_"+pid);
+		
+		for(i = 0;i<data.length;i++){
+			if(data[i].id == pid){
+				con = data[i].content;
+				console.log(con);
+				p = document.getElementById("c_"+pid)
+				p.appendChild(document.createElement("br"));
+				p.innerHTML = con;
+			}
+		}
+	}
+	function set_usr(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			if(xhr.responseText != "-1"){
+				document.getElementById("d_1").innerHTML = xhr.responseText;
+				document.getElementById("d_2").innerHTML = "Logout";
+				document.getElementById("d_2").setAttribute("onclick","logout()");
+				document.getElementById("d_2").setAttribute("href","Index.html");
+				console.log("changed!");
+			}
+			else {
+				document.getElementById("d_1").innerHTML = "Login";
+				document.getElementById("d_2").innerHTML = "About";
+				 document.getElementById("d_1").setAttribute("href","Login.html");
+				 document.getElementById("d_2").setAttribute("href","about.html");
+			}
+		}
+	}
+	function logout(){
+		xhr.open("GET","logout.php",true);console.log("logging out...");
+		xhr.send();
+	}
+</script>
+<body onload="init()">
+<nav class="navbar navbar navbar-fixed-top" id="navv">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="" class="navbar-brand">YANA</a>
+			</div>
+				<div class="collapse navbar-collapse" id="collapsemenu">
+					<ul class="nav navbar-nav navbar-right ">
+						<li class="active"><a href="">Home</a></li>
+						<li><a href="">Profile</a></li>
+						<li><a href="">Catagories</a></li>
+						<li><a href="">Post</a></li>
+						<li><a href="">About</a></li>
+						<li>
+							<a class="dropdown-toggle" data-toggle="dropdown" role="button" href="">More<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a id="d_1" href=""></a></li>
+								<li><a id = "d_2"href=""></a></li>
+								<li><a id="b_sub" onclick="obj.monitor()">Subscribe</a></li>
+							</ul>
+						</li>
+					</ul>
+		 		</div>
+		</div>
+</nav>
+	<div class="jumbotron container center" id="jumbo1">
+		<h1>Yet Another News Aggrigator</h1>
+	</div>
+
+	<div id="post_container" class="container">
+	</div>
+	
+<!--	<div id="subs" class="center">
+		<input type="button" id="b_sub" class="btn btn-primary" value="Subscribe" onclick="obj.monitor()"/>
+	</div>	-->
+	
+	
+	<div id="jumb0" class="footer">
+		<div class="container center">
+			<h2>Desinged By Team NPN</h2>
+		</div>
+	</div>
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script >
+	$(document).scroll(function() {
+ 	 	$("#navv").css("background-color","rgba(255,255,255,1)");});
+	
+	$(".pusr").mouseover(function(){
+		$(".pusr").css(
+		"background-color","#eee");
+		});
+
+</script>
+</body>
+</html>

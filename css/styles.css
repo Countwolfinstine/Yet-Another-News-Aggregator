@@ -37,6 +37,8 @@ margin-bottom: 0px;
     color:rgb(255,255,255);
     font-size:45px;
 }
+.navbar-fixed-bottom, .navbar-fixed-top {
+    position: relative;
 #active{
 	color:rgb(255,255,255);
 }

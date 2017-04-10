@@ -1,6 +1,18 @@
 
 	var xhr=new XMLHttpRequest();
 	var xhr1=new XMLHttpRequest();
+	function monitor(){
+		var ev=new EventSource("http://localhost/Yet-Another-News-Aggregator/cometServer.php");
+		ev.addEventListener("changeInDB",get_update,false);
+		ev.onerror=function(){alert("Looks like we messed up")};
+	}
+	function get_update(event){
+		var arr = JSON.parse(event.data);
+		// keyNote: this array has multiple items within it;
+		// display the required fields of the array;
+		console.log(arr);
+		window.alert("Hey, "+arr.length+"new posts are added!");
+	}
 	function login(){
 		us=document.getElementById("log_U").value;
 		pas=document.getElementById("log_P").value;		

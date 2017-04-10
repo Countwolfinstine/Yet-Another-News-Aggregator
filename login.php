@@ -14,7 +14,10 @@ include("config.php");
       $count = mysqli_num_rows($result);	
       if($count == 1) {
         	$_SESSION['login_user'] = $username;
-       	 	echo "Successfully Logged In";
+			$id = intval($row['id']);
+			$_SESSION['id'] =$id;
+				
+			echo $username." id = ".$id;
       	}
       else {
         	$error = "Your Login Name or Password is invalid";

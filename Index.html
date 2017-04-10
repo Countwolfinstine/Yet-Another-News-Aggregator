@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,8 +6,133 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <title>YANA Home</title>
+  
+
 </head>
-<body>
+<style>
+	div.pcon{
+		width:100%;
+		background-color:#f2f2f2;
+	}
+	div.ptit{
+		width:100%;
+		display:block;
+	}
+	.pdiv {
+		border: 2px solid black;
+		border-radius: 10px;
+		width:70%;
+		padding:10px;
+		margin-left:20px;
+	}
+</style>
+<script type="text/javascript">
+	var xhr = new XMLHttpRequest(); 
+	var xhr1 = new XMLHttpRequest(); 
+	var id = 0;var data = [];
+	//document.body.onscroll = fetch;
+	//var scr1;
+	count=0;
+	scrollamt=200;
+	function getContent(){
+	console.log(document.body.scrollTop);
+	if(document.body.scrollTop>scrollamt || document.documentElement.scrollTop>scrollamt)
+			{
+			
+			posts();	
+			scrollamt+=200;
+			}
+	}
+	
+
+	window.onscroll=getContent;
+	function posts(){
+		id = id+10;
+		xhr1.onreadystatechange = print_posts;
+		xhr1.open("GET","fetch_posts.php?id="+id,true);
+		xhr1.send()
+	}
+	
+	function init(){
+		xhr.onreadystatechange = set_usr;
+		xhr.open("GET","login_check.php",true);console.log("checking...");
+		xhr.send();
+		posts()
+	}
+	
+	function print_posts(){
+		if(xhr1.readyState == 4 && xhr1.status == 200){
+			//console.log(xhr1.responseText);
+			var res = JSON.parse(xhr1.responseText);
+			var new_dat_len = res.length;
+			var old_dat_len = data.length;
+			//data.push(res:res);
+			for(var j = 0;j<new_dat_len;j++)
+				data.push(res[j]);
+			console.log(data);
+			for(var i=old_dat_len; i< old_dat_len+new_dat_len;i++){
+				//data.push(res[i]);
+				
+				var pdiv = document.createElement("div");
+				var pusr = document.createElement("div");
+				var ptit = document.createElement("div");
+				var pcon = document.createElement("div");
+				pdiv.setAttribute("class","pdiv");
+				pusr.setAttribute("class","pusr");
+				ptit.setAttribute("class","ptit");
+				pcon.setAttribute("class","pcon");
+				pdiv.setAttribute("id","p_"+data[i].id);
+				pcon.setAttribute("id","c_"+data[i].id);
+				pusr.innerHTML = "<h4><b><u>@"+data[i].username+"</u></b></h4>";
+				ptit.innerHTML = "<b><i>"+data[i].title+"</i></b>";
+				pdiv.setAttribute("onclick","expand_post("+data[i].id+")");
+				var p = document.getElementById("post_container");
+				pdiv.appendChild(pusr);
+				pdiv.appendChild(ptit);
+				pdiv.appendChild(pcon);
+				p.appendChild(pdiv);
+				p.appendChild(document.createElement("br"));
+				
+			//	console.log(data[i]);
+			}
+			
+		}
+	}
+	function expand_post(pid){
+		ps = document.getElementById("p_"+pid);
+		for(i = 0;i<data.length;i++){
+			if(data[i].id == pid){
+				con = data[i].content;
+				//console.log(con);
+				p = document.getElementById("c_"+pid)
+				p.appendChild(document.createElement("br"));
+				p.innerHTML = con;
+			}
+		}
+	}
+	function set_usr(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			if(xhr.responseText != "-1"){
+				document.getElementById("d_1").innerHTML = xhr.responseText;
+				document.getElementById("d_2").innerHTML = "Logout";
+				document.getElementById("d_2").setAttribute("onclick","logout()");
+				 document.getElementById("d_2").setAttribute("href","Index.html");
+				console.log("changed!");
+			}
+			else {
+				document.getElementById("d_1").innerHTML = "Login";
+				document.getElementById("d_2").innerHTML = "About";
+				 document.getElementById("d_1").setAttribute("href","Login.html");
+				 document.getElementById("d_2").setAttribute("href","about.html");
+			}
+		}
+	}
+	function logout(){
+		xhr.open("GET","logout.php",true);console.log("logging out...");
+		xhr.send();
+	}
+</script>
+<body onload="init()">
 <nav class="navbar navbar-inverse navbar-fixed-top" id="navv">
 	<div class="container">
 		<div class="navbar-header">
@@ -17,21 +141,20 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a href="" class="navbar-brand">YANA</a>
+			<a href="index.html" class="navbar-brand">YANA</a>
 		</div>
 			<div class="collapse navbar-collapse" id="collapsemenu">
 				<ul class="nav navbar-nav navbar-right ">
-					<li class="active"><a href="">Home</a></li>
+					<li class="active"><a href="index.html">Home</a></li>
 					<li><a href="">Profile</a></li>
 					<li><a href="">Catagories</a></li>
-					<li><a href="">Post</a></li>
-					<li><a href="">About</a></li>
+					<li><a href="new_post.html">Post</a></li>
+					
 					<li>
 						<a class="dropdown-toggle" data-toggle="dropdown" role="button" href="">More<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="">stuff</a></li>
-							<li><a href="">placeholer?</a></li>
-							<li><a href="">stuff2</a></li>
+							<li><a id="d_1">Login</a></li>
+							<li><a id="d_2">Sign Up</a></li>
 						</ul>
 					</li>
 		<!-- 			<button type="button" class="btn btn-default navbar-btn navbar-right">Sign out</button>
@@ -39,21 +162,13 @@
 	 		</div>
 	</div>
 </nav>
+<div id="post_container">
+
+</div>
 <div class="jumbotron center" id="jumbo1">
 	<h1>Yet Another News Aggrigator</h1>
 </div>
-<div class="container">
-<p>
-	<h1>Website</h1>
-	YANA (stylized as YANA, /ˈrɛdɪt/)[5] is a social news aggregation, web content rating, and discussion website. YANA's registered community members can submit content, such as text posts or direct links. Registered users can then vote submissions up or down to organize the posts and determine their position on the site's pages. The submissions with the most positive votes appear on the front page or the top of a category. Content entries are organized by areas of interest called "subYANAs". The subYANA topics include news, science, gaming, movies, music, books, fitness, food, and image-sharing, among many others. The site's terms of use prohibit behaviors such as harassment, and moderating and limiting harassment has taken substantial resources.[6]</p><p>
-	As of 2016, YANA had 542 million monthly visitors (234 million unique users), ranking #7 most visited web-site in US and #24 in the world.[7] Across 2015, YANA saw 82.54 billion pageviews, 73.15 million submissions, 725.85 million comments, and 6.89 billion upvotes from its users.[8]</p><p>
-	YANA was founded by University of Virginia roommates Steve Huffman and Alexis Ohanian in 2005. Condé Nast Publications acquired the site in October 2006. YANA became a direct subsidiary of Condé Nast's parent company, Advance Publications, in September 2011. As of August 2012, YANA operates as an independent entity, although Advance is still its largest shareholder.[9] YANA is based in San Francisco, California. In October 2014, YANA raised $50 million in a funding round led by Sam Altman and including investors Marc Andreessen, Peter Thiel, Ron Conway, Snoop Dogg, and Jared Leto.[10] Their investment saw the company valued at $500 million.[11][12]</p>
-	<h1>Users</h1>
-	<p>Registering an account with YANA is free and does not require an email address to complete. As of June 2015, there were 36 million user accounts.[21] When logged in, YANA users (known as YANAors) have the ability to vote on submissions and comments to increase or decrease their visibility and submit links and comments. Users can also create their own subYANA on a topic of their choosing, and interested users can add it to their frontpage by subscribing to it. For example, as of May 2015, the Wikipedia subYANA – subtitled "the most interesting pages on Wikipedia" – has over 151,000 subscribers.[22] YANA comments and submissions are occasionally abbreviated and peppered with terms that are understood within (and in many cases also outside) the YANA community, ranging from OP (for "original poster" – the user who posted the submission being commented upon) to NSFW (for "not safe for work" – indicating the post has graphic or sexually explicit content).[23] Users earn "post karma" and "comment karma" for submitting text posts, link posts, and comments, which accumulate as point values on their user profile. "Post karma" refers to karma points received from text and link posts, while "comment karma" refers to karma points received from comments. Users may also be gifted "YANA gold" if another user has well received the comment or post, generally due to humorous or high quality content; this process is known as "gilding." YANA has also created a system of points called "cYANAs". YANA gold "cYANAs" are like gift certificates: each cYANA you have allows you to give one month of YANA gold to someone else. The points do not lead to a prize as they are meant to stand in as a badge of honor for the user among their peers, although YANAors have attempted to redeem their points before.[24]</p>
 
-	<p>YANA also allows submissions that do not link externally. These are called "self posts" or "text submissions". Many discussion-based subYANAs allow only text-only submissions such as "AskYANA" – where users are only allowed to pose broad, discussion based questions to the community at large. Self posts previously did not accumulate karma points for the submitter, but as of July, 2016, these text-only posts generate karma.[25]
-	</p>
-</div>
 <div id="jumb0">
 	<div class="container center">
 		<h2>Desinged By Team NPN</h2>
@@ -62,12 +177,10 @@
 
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/script.js"></script>
 <script >
 	$(document).scroll(function() {
   	$("#navv").css("background-color","rgba(0,0,0,1)");
 });
 </script>
-
 </body>
 </html>

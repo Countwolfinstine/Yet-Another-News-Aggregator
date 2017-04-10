@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YANA</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
+   
+	  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<style>
+	body{
+		background-color:white;
+		border-color:white;
+	}
+	div.title_container > div {
+		margin:2px;
+		margin-top:4px;
+	}
+	div.post_container > div{
+		margin-top:10px;
+	}
+	.post_container{
+		margin-top: 70px;
+		background-color:#b3b3b3;
+		border-radius:5px;
+	}
+	.title_container{
+		margin:5px;
+		background-color:#d9d9d9;
+		
+	}
+	.para_container{
+		background-color:#d9d9d9;
+	}
+</style>
+<script type="text/javascript">
+	var xhr = new XMLHttpRequest();
+	function init(){
+		xhr.onreadystatechange = set_usr;
+		xhr.open("GET","login_check.php",true);console.log("checking...");
+		
+		xhr.send();
+	}
+	
+	function set_usr(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			if(xhr.responseText != "-1"){
+				document.getElementById("d_1").innerHTML = xhr.responseText;
+				document.getElementById("d_2").innerHTML = "Logout";
+				document.getElementById("d_2").setAttribute("onclick","logout()");
+				 document.getElementById("d_2").setAttribute("href","index.html");
+				console.log("changed!");
+			}
+			else {
+				document.getElementById("d_1").innerHTML = "Login";
+				document.getElementById("d_2").innerHTML = "About";
+				 document.getElementById("d_1").setAttribute("href","login.html");
+				 document.getElementById("d_2").setAttribute("href","about.html");
+			}
+		}
+	}
+	function logout(){
+		xhr.open("GET","logout.php",true);console.log("logging out...");
+		xhr.send();
+	}
+</script>
+<body onload="init()">
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="navv">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a href="index.html" class="navbar-brand">YANA</a>
+			</div>
+				<div class="collapse navbar-collapse" id="collapsemenu">
+					<ul class="nav navbar-nav navbar-right ">
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="">Profile</a></li>
+						<li><a href="">Catagories</a></li>
+						<li><a href="new_post.html">Post</a></li>
+						
+						<li>
+							<a class="dropdown-toggle" data-toggle="dropdown" role="button" href="">More<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a id="d_1">Login</a></li>
+								<li><a id="d_2">Sign Up</a></li>
+							</ul>
+						</li>
+			<!-- 			<button type="button" class="btn btn-default navbar-btn navbar-right">Sign out</button>
+		 -->		</ul>
+				</div>
+		</div>
+	</nav>
+		<div class="post_container" style="border:2px solid teal;height:500px;width:80%;">
+			<form target="_self" method="post" action = "post_data.php" style="height:100%;">
+				<div class="title_container" style="border:1px solid #006666;height:7%;display:flex;">
+					<div class="title" style="float:left;width:7%;margin-left:10px;">
+					<span><b>TITLE : </b></span>
+					</div>
+					<div class="title_box"  style="float:left;width:73%;">
+						<input name="title" placeholder="Insert Title Here..." style="width:95%;" id="title"></input>
+					</div>
+					
+					
+				</div><br>
+				<div class="para_container" style="border:1px solid #006666;height:85%;">
+					<div class="para" >
+						<div class="para_box">
+						<!--	<input class="para_input" style="margin-left:10%;margin-top:8px;width:60%;height:350px;"></input> -->
+						<textarea name="para"  cols="100" rows="10" id="para" style="margin-left:10%;margin-top:8px;height:200%;"></textarea>
+						</div>
+					</div>
+					
+					<button type="submit" id="post"  style="float:right;bottom:5px;width:10%;margin-right:15%;">Post</button>
+				</div>
+			</form>
+		</div>
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script >
+	$(document).scroll(function() {
+  	$("#navv").css("background-color","rgba(0,0,0,1)");
+});
+</script>
+</body>
+
+<!--script src="js/new_post.js"></script-->
+</html>

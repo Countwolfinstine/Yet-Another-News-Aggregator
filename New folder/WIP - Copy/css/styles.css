@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:700|Raleway:300');
+html {
+	position: relative;
+/*	min-height: 100%;*/
+}
+
+body{
+	font-family: 'Raleway';
+	font-weight:300;
+	/*padding-top: 50px;*/
+	/*margin-bottom: 60px;*/
+    border-right-color:rgba(0,0,0,1);
+    border-right-width:20px;
+    border-right-style:solid;
+
+    border-left-color:rgba(0,0,0,1);
+    border-left-width:20px;
+    border-left-style:solid;
+}
+footer{
+background: radial-gradient(circle,rgb(4, 5, 5),rgb(25, 25, 25),rgb(55, 55, 55));	
+
+}
+
+
+#jumb0{
+background: radial-gradient(circle,rgb(55, 55, 55),rgb(25, 25, 25),rgb(4, 5, 5));	
+color:white;
+margin-bottom: 0px;
+
+}.navbar-inverse	{
+	background-color: rgba(0,0,0,1);
+	border-color: rgba(0,0,0,1);
+
+}
+.navbar-inverse .navbar-brand {
+    color:rgb(255,255,255);
+    font-size:45px;
+}
+#active{
+	color:rgb(255,255,255);
+}
+h1 {
+    letter-spacing: 7px;
+    font-family: 'Rajdhani', Arial;
+}
+
+.navbar-nav {
+	font-size: 20px;
+}
+
+.navbar-default{
+	background-color: rgba(0,0,0,1);
+	border-color: rgba(0,0,0,0);
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+.center{
+	text-align: center;
+}
+
+#jumbo1{
+background: rgb(255, 255, 255);
+color: white;	
+}
