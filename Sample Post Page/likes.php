@@ -8,5 +8,5 @@
 			echo " this is $text";
 			$file=fopen("like_count.txt","w");	
 			fwrite($file,$text);
-			
+			fclose($file);
 ?>
