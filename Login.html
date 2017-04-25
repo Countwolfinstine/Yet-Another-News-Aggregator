@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/login.css">
-  <style type="text/css">
-
-  </style>
+  	
   <title>Login</title>
 </head>
 <script type="text/javascript">
@@ -16,8 +14,7 @@
 	function init(){
 		
 		xhr.onreadystatechange = set_usr;
-		xhr.open("GET","login_check.php",true);console.log("checking...");
-		
+		xhr.open("GET","login_check.php",true);console.log("checking...");		
 		xhr.send();
 	}
 	
@@ -60,7 +57,6 @@
 					<li><a href="">Profile</a></li>
 					<li><a href="">Catagories</a></li>
 					<li><a href="new_post.html">Post</a></li>
-					
 					<li>
 						<a class="dropdown-toggle" data-toggle="dropdown" role="button" href="">More<span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -68,16 +64,14 @@
 							<li><a id="d_2">Sign Up</a></li>
 						</ul>
 					</li>
-		<!-- 			<button type="button" class="btn btn-default navbar-btn navbar-right">Sign out</button>
-	 -->		</ul>
+				</ul>
 	 		</div>
 	</div>
 </nav>
 
 <div class="container box">
-<span class="spn" id="lgin"> LOGIN</span>
-<span class="spn" id="regis">REGISTER</span>
-
+	<span class="spn" id="lgin"> LOGIN</span>
+	<span class="spn" id="regis">REGISTER</span>
 	<div class="login" >
 		<label for="userName" class="aa">Username</label>
 		<input type="text"  class="form-control" name="userName" id="log_U" >
@@ -91,12 +85,10 @@
 		<input type="email"  class="form-control" name="e_email" id="reg_E" >
 		<label for="e_user" class="aa">Enter your Username</label>
 		<input type="text"  class="form-control" name="e_user" id="reg_U" >
-		
 		<label for="e_password" class="aa">Enter the Password</label>
 		<input type="password"  class="form-control" name="e_password"   id="reg_P"   >
 		<label for="er_password" class="aa">Re-Enter the Password</label>
 		<input type="password"  class="form-control" name="er_password"   id="reg_Pr"   >
-		
 		<input type="button" class="form-control sub" value="Submit" id="reg_S" onclick="register()">
 		<span id="regstat"></span>
 	</div>
@@ -191,17 +183,6 @@
 
 
 		);		
-
-
-	// $(document).scroll(function() {
-	//   	$("#navv").css("background-color","rgba(255,255,255,0.9)");
-	//   	$(".navbar-inverse .navbar-brand ").css("color","#365382");
-	//   	if($(this).scrollTop()==0)
-	// {
-	// 	$("#navv").css("background-color","rgba(255,255,255,0)");
-	//   	$(".navbar-inverse .navbar-brand ").css("color","white"); 	
-	// }
-	// });
 
 		
 </script>
